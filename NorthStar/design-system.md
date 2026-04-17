@@ -13,9 +13,14 @@
 5. [Elevation & Shadows](#elevation--shadows)
 6. [Iconography](#iconography)
 7. [Components](#components)
-8. [Motion & Animation](#motion--animation)
-9. [Layout Patterns](#layout-patterns)
-10. [Usage Rules](#usage-rules)
+8. [Input & Controls](#input--controls)
+9. [Modal & Overlay](#modal--overlay)
+10. [Navigation](#navigation)
+11. [Feedback & States](#feedback--states)
+12. [Motion & Animation](#motion--animation)
+13. [Layout Patterns](#layout-patterns)
+14. [Usage Rules](#usage-rules)
+15. [Accessibility](#accessibility)
 
 ---
 
@@ -460,6 +465,238 @@ Animated mesh gradient wrapper for page-level content.
 
 ---
 
+## Input & Controls
+
+### Toggle Switch
+
+Binary on/off control used in settings panels and preference screens.
+
+**Dimensions:**
+- Track: 36 x 20px, border-radius 10px
+- Thumb: 16 x 16px, border-radius 50%
+- Thumb shadow: `0 1px 3px rgba(0,0,0,.2)`
+
+**States:**
+
+| State        | Track Background | Thumb Position | Opacity |
+|--------------|------------------|----------------|---------|
+| Off          | `s3` (#D1D5DB)   | left: 2px      | 1       |
+| On           | `tl` (#93BEB9)   | left: 18px     | 1       |
+| Disabled Off | `s2` (#E5E7EB)   | left: 2px      | 0.5     |
+| Disabled On  | `tl` at 50%      | left: 18px     | 0.5     |
+
+**Transitions:**
+- Track background: 0.2s ease
+- Thumb position: 0.2s ease
+
+**Usage Rules:**
+- Use for binary settings that take effect immediately (no save button needed)
+- Label must appear to the left of the toggle
+- Always show the current state visually -- never rely on the label alone
+
+### Search Input
+
+Text input for filtering and search across case lists, patient records, and admin views.
+
+**Styles:**
+- Padding: 8px 12px
+- Border: 1px solid `bd`, radius 8px
+- Font: 13px, DM Sans
+- Placeholder: `t3` color
+
+**States:**
+
+| State    | Border          | Shadow                          | Text Color |
+|----------|-----------------|----------------------------------|------------|
+| Default  | 1px solid `bd`  | none                            | `t3`       |
+| Focused  | 1px solid `tl`  | `0 0 0 3px ${tl}30`            | `t1`       |
+| Disabled | 1px solid `s2`  | none                            | `t3`       |
+
+**Usage Rules:**
+- Placeholder text should describe what's searchable ("Search cases...", "Filter by name...")
+- Focus ring uses 30% teal opacity (lighter than button focus)
+- Disabled inputs should have `s1` background and 60% opacity
+
+---
+
+## Modal & Overlay
+
+### Modal Dialog
+
+Centered content panel for focused tasks, confirmations, and guided flows.
+
+**Styles:**
+- Background: `wh`
+- Border radius: 16px
+- Padding: 36px 40px
+- Max width: 420px
+- Shadow: `0 20px 60px rgba(0,0,0,.3)`
+- Entrance animation: `.fs` (fadeScale, 0.4s ease-out)
+- Text align: center
+
+**Scrim (Backdrop):**
+
+| Variant  | Value                  | Usage                          |
+|----------|------------------------|--------------------------------|
+| Light    | `rgba(0,0,0,.4)`       | Non-critical overlays          |
+| Standard | `rgba(0,0,0,.6)`       | Welcome modal, confirmations   |
+| Heavy    | `rgba(0,0,0,.75)`      | Tour mode, forced focus        |
+
+### Tour Tooltip
+
+Contextual popover anchored to a target element during the onboarding tour.
+
+**Styles:**
+- Background: `wh`
+- Border radius: 12px
+- Padding: 16px 20px
+- Width: 280px
+- Shadow: `0 12px 40px rgba(0,0,0,.3)`
+- Arrow: 12x12px square rotated 45deg with matching border
+
+**Content Structure:**
+1. Title (14px, weight 600, `nv`)
+2. Description (12px, `t2`, line-height 1.6)
+3. Navigation buttons (Prev / Next or "Let's go!")
+
+**Usage Rules:**
+- Modals should have exactly two actions (primary + secondary) -- never more
+- Tour tooltips anchor to the center of the target element
+- Scrim blocks interaction with background content
+- Exit is instant (no fade-out animation)
+- Never nest modals inside modals
+
+---
+
+## Navigation
+
+### Top Navigation Bar
+
+Persistent bar across all pages with logo and page-level tabs.
+
+**Styles:**
+- Height: ~42px
+- Padding: 7px 12px
+- Background: `wh`
+- Border bottom: 1px solid `bd`
+- Tab container: `s1` background, 1px `bd` border, radius 6px, padding 2px 4px
+
+**Tab States:**
+
+| State    | Border              | Background    | Color  | Weight |
+|----------|---------------------|---------------|--------|--------|
+| Inactive | 1px transparent     | transparent   | `t2`   | 500    |
+| Active   | 1px solid `tl`      | `wh`          | `tl`   | 600    |
+| Tour HL  | box-shadow 3px `tl` | `wh`          | `tl`   | 700    |
+
+### Sidebar Navigation (Demo Mode)
+
+Vertical section + sub-screen navigator for the 28-screen operational demo.
+
+**Structure:**
+- 7 sections (Today, Chairside, Cases, Design, Lab, Analytics, Admin)
+- 4 sub-screens per section
+- Emoji icon + label per section
+- Active section: `nv` color, weight 600
+- Active sub-screen: `tl` color, weight 600, tinted background (`tl` at 12%)
+
+### Detail Routing
+
+Drill-down from list views to detail views via table row or card click.
+
+**Navigation Depth:**
+```
+Page (e.g. Demo) > Section (e.g. Cases) > Screen (e.g. Active Cases) > Detail (e.g. Case #4821)
+```
+
+- Maximum depth: 4 levels
+- Detail views always show a Back button ("← Back", 14px, teal)
+- `goD(type, data)` opens a detail; `back()` returns to parent
+- Detail types: Patient, Scan, Review, Shipment, Team, Case
+
+**Usage Rules:**
+- Never navigate deeper than 4 levels
+- Top nav tabs use `sm` button variant
+- Sidebar is only visible in Demo mode
+- Active states should be immediately visually distinguishable
+- Emoji icons provide instant section recognition without an icon library
+
+---
+
+## Feedback & States
+
+### Loading States
+
+| Pattern              | Usage                                | Visual                                    |
+|----------------------|--------------------------------------|-------------------------------------------|
+| Spinner              | Inline or overlay loading            | 28px circle, 3px border, `tl` top color   |
+| Progress bar         | File uploads, batch processing       | 4px height, `tl` fill, animated gradient  |
+| Button loading       | Form submission, save actions        | 14px spinner + "Saving..." text           |
+
+**Spinner Spec:**
+- Size: 28 x 28px
+- Border: 3px solid `s2`, border-top-color `tl`
+- Animation: `fu .7s linear infinite` (rotation)
+
+**Progress Bar Spec:**
+- Track: height 4px, `s1` background, radius 2px
+- Fill: `tl` with gradient shimmer (`wave 2s ease infinite`)
+
+### Alert Types
+
+| Type     | Icon | Background    | Border         | Usage                      |
+|----------|------|---------------|----------------|----------------------------|
+| Success  | checkmark | `tl` at 10%  | `tl` at 30%   | Completed actions          |
+| Warning  | warning | `am` at 10%  | `am` at 30%   | SLA deadlines, attention   |
+| Critical | alarm | `rd` at 10%  | `rd` at 30%   | Failures, urgent issues    |
+| Info     | bulb | `sk` at 10%  | `sk` at 30%   | AI suggestions, new data   |
+
+**Styles:**
+- Padding: 10px 14px
+- Border radius: 8px
+- Icon + message + badge layout
+- Entrance: `.fu` animation with staggered delay (0.08s per item)
+
+### Empty States
+
+Displayed when a list or search returns no results.
+
+**Structure:**
+1. Large emoji illustration (32px)
+2. Title (14px, weight 600, `nv`)
+3. Description (12px, `t3`)
+4. Action button (primary or default, `sm`)
+
+**Styles:**
+- Padding: 24px
+- Background: `bg`
+- Border: 1px dashed `s3`
+- Border radius: 8px
+- Text align: center
+
+### Status Indicators
+
+Presence dots for online/availability status.
+
+| Status  | Color      | Glow                        |
+|---------|------------|-----------------------------|
+| Online  | `#22C55E`  | `0 0 6px #22C55E60`         |
+| Away    | `am`       | none                        |
+| Offline | `t3`       | none                        |
+| Busy    | `rd`       | none                        |
+
+- Dot: 8 x 8px, border-radius 50%
+- Only "Online" has a glow effect
+
+**Usage Rules:**
+- Always pair alerts with an icon AND descriptive text
+- Loading buttons should disable click and show `cursor: wait`
+- Empty states must include a CTA that resolves the empty condition
+- Never show raw error codes -- use friendly, actionable messages
+- Status dots always appear alongside a text label
+
+---
+
 ## Motion & Animation
 
 ### Keyframe Library
@@ -557,6 +794,9 @@ Animated mesh gradient wrapper for page-level content.
 - Keep data in monospace (`MN`) for easy scanning
 - Use Badge to indicate status -- never rely on color alone
 - Provide hover states for all clickable elements
+- Show a Back button on every detail view
+- Use empty states with a clear CTA when lists are vacant
+- Pair loading spinners with descriptive text
 
 ### Don't
 
@@ -567,15 +807,52 @@ Animated mesh gradient wrapper for page-level content.
 - Place primary buttons inside cards that are themselves clickable
 - Use custom colors outside the defined palette
 - Override font weights with values not in the scale (300, 400, 500, 600, 700)
+- Navigate deeper than Page > Section > Screen > Detail
+- Show raw error codes to clinical users -- use friendly messages
+- Rely on color alone to communicate state
 
-### Accessibility
+---
 
-- Primary text (`t1` on `wh`): WCAG AAA compliant (contrast ratio 15.4:1)
-- Secondary text (`t2` on `wh`): WCAG AAA compliant (contrast ratio 7.3:1)
-- Tertiary text (`t3` on `wh`): WCAG AA compliant (contrast ratio 3.0:1)
-- Teal on white: WCAG AA for large text (contrast ratio 2.7:1) -- always pair with text labels
-- All interactive elements have visible focus indicators (3px teal ring)
-- Hover states provide non-color feedback (transform, shadow)
+## Accessibility
+
+### Color Contrast Ratios
+
+| Pair         | Ratio  | WCAG Level | Usage            |
+|--------------|--------|------------|------------------|
+| `t1` on `wh` | 15.4:1 | AAA        | Primary text     |
+| `t2` on `wh` | 7.3:1  | AAA        | Secondary text   |
+| `t3` on `wh` | 3.0:1  | AA         | Tertiary/labels  |
+| `nv` on `wh` | 10.2:1 | AAA        | Headings         |
+| `wh` on `tl` | 2.7:1  | AA Large   | Button text      |
+| `wh` on `nv` | 10.2:1 | AAA        | Inverse text     |
+
+### Focus Indicators
+
+All interactive elements display a visible focus ring when navigated via keyboard:
+
+| Element  | Ring                          | Notes                    |
+|----------|-------------------------------|--------------------------|
+| Button   | `0 0 0 3px ${tl}60`          | 60% teal opacity         |
+| Input    | `0 0 0 3px ${tl}30`          | 30% teal opacity         |
+| Card     | `0 0 0 3px ${tl}40`          | 40% teal opacity         |
+
+### Interaction Feedback
+
+- All clickable elements have visible hover states (lift, border, shadow)
+- Focus ring is visible on all interactive elements via keyboard navigation
+- Loading states include both a spinner and descriptive text
+- Badges use text labels -- never color alone -- for status
+- Empty states include a descriptive message and an actionable CTA
+- Alert messages pair an icon with text for redundant signaling
+
+### Semantic Color Independence
+
+Color must always be reinforced by a secondary indicator:
+
+- **Badges**: Always include a text label (e.g., "Delivered", "Overdue")
+- **Alerts**: Always include an icon alongside the colored background
+- **Status dots**: Always appear next to a text label ("Online", "Away")
+- **Charts**: Use labels and values, not just colored bars
 
 ---
 
