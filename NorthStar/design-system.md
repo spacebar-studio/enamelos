@@ -1,6 +1,6 @@
-# EnamelOS Design System v2
+# EnamelOS Design System
 
-> The complete design language for EnamelOS -- a speculative dental practice management platform designed for Dandy.
+> The complete design language for EnamelOS -- a dental practice management platform.
 
 ---
 
@@ -15,12 +15,14 @@
 7. [Components](#components)
 8. [Input & Controls](#input--controls)
 9. [Modal & Overlay](#modal--overlay)
-10. [Navigation](#navigation)
-11. [Feedback & States](#feedback--states)
-12. [Motion & Animation](#motion--animation)
-13. [Layout Patterns](#layout-patterns)
-14. [Usage Rules](#usage-rules)
-15. [Accessibility](#accessibility)
+10. [Mono & Back](#mono--back)
+11. [Navigation](#navigation)
+12. [Feedback & States](#feedback--states)
+13. [Data Hierarchy](#data-hierarchy)
+14. [Motion & Animation](#motion--animation)
+15. [Layout Patterns](#layout-patterns)
+16. [Usage Rules](#usage-rules)
+17. [Accessibility](#accessibility)
 
 ---
 
@@ -253,6 +255,18 @@ Primary interactive element.
 - Use Default for secondary actions
 - Use `sm` for toolbar buttons and compact layouts
 - Never place two Primary buttons adjacent to each other
+
+**Button Groups:**
+
+| Pattern           | Gap  | Layout          | Example                    |
+|-------------------|------|-----------------|----------------------------|
+| Modal footer      | 10px | center-aligned  | Cancel + Confirm           |
+| Tour navigation   | --   | space-between   | ← Prev + Next →           |
+| Filter set        | 6px  | left-aligned    | All · Crown · Bridge       |
+
+- Primary button always on the right in modal pairs
+- Filter sets use `sm` + `active` for the selected item
+- Use `space-between` for prev/next navigation pairs
 
 ---
 
@@ -568,6 +582,51 @@ Contextual popover anchored to a target element during the onboarding tour.
 
 ---
 
+## Mono & Back
+
+### Mono (Monospace Text)
+
+Inline wrapper for data values that benefit from tabular alignment and visual distinction from prose text.
+
+**Styles:**
+- Font: JetBrains Mono (`MN`)
+- Size: 11px
+- Color: `t2` (#4B5563)
+
+**Usage Examples:**
+
+| Context    | Example Output          |
+|------------|-------------------------|
+| Percentage | `94.7%`                 |
+| Duration   | `3.2 days`              |
+| ID / Code  | `CASE-4821-A`           |
+| Timestamp  | `2026-04-17 09:32`      |
+
+**Usage Rules:**
+- Use for any scannable numerical or coded data
+- Always wrap percentages, durations, IDs, and timestamps
+- Appears in table cells, KPI values, and inline metrics
+- Never use for prose text or labels
+
+### Back (Navigation)
+
+Single-purpose navigation component for returning from detail views to parent lists.
+
+**Styles:**
+- Font: 14px
+- Color: `tl` (#93BEB9)
+- Text: "← Back" (left arrow + space + "Back")
+- Margin bottom: 16px
+- Cursor: pointer
+
+**Usage Rules:**
+- Required at the top of every detail/drill-down view
+- Returns to the parent list via `back()` callback
+- Never nest more than one level of detail
+- No additional styling variants -- one pattern everywhere
+
+---
+
 ## Navigation
 
 ### Top Navigation Bar
@@ -697,6 +756,43 @@ Presence dots for online/availability status.
 
 ---
 
+## Data Hierarchy
+
+### Progressive Disclosure Flow
+
+EnamelOS organizes information in three tiers, each progressively more detailed:
+
+| Level          | Purpose                    | Components Used              |
+|----------------|----------------------------|-------------------------------|
+| **KPI Summary** | At-a-glance metrics       | KPI cards in 3-4 column rows |
+| **Table/List** | Scannable record overview  | Tbl with Avatar, Badge, Mono |
+| **Detail View** | Full record context       | Back + KPIs + full fields    |
+
+Users drill down by clicking a table row or card, which opens the detail view via `goD(type, data)`. The Back component returns them to the parent list.
+
+### Color with Opacity
+
+Semantic colors at reduced opacity create tinted backgrounds. The hex suffix controls the alpha:
+
+| Suffix | Opacity | Usage                                  |
+|--------|---------|----------------------------------------|
+| `08`   | ~3%     | Subtle tint (do's list background)     |
+| `12`   | ~7%     | Badge background, active sidebar item  |
+| `20`   | ~12%    | Alert background, accent fill          |
+| `30`   | ~19%    | Alert border, focus ring               |
+| `60`   | ~38%    | Focus ring (strong), glow              |
+| `FF`   | 100%    | Full color (icons, text, fills)        |
+
+### Information Density Rules
+
+- KPIs show 3-4 metrics per row -- enough for a snapshot, not overwhelming
+- Tables show 4-6 columns -- first column is always the primary identifier
+- Detail views show everything -- no truncation at the deepest level
+- Badge + Mono pair in tables: status (qualitative) + data (quantitative)
+- Same spacing tokens at every level -- density changes via column count, not token shrinking
+
+---
+
 ## Motion & Animation
 
 ### Keyframe Library
@@ -728,6 +824,15 @@ Presence dots for online/availability status.
 | `.fu` | `fu`      | Default page-enter for cards        |
 | `.fi` | `fi`      | Subtle fade-in for secondary items  |
 | `.fs` | `fadeScale`| Modal and overlay entrance          |
+
+### Easing Curves
+
+| Curve         | Duration Range | Usage                                                  |
+|---------------|----------------|--------------------------------------------------------|
+| `ease-out`    | 0.15--0.45s    | Entry animations, button responses -- fast start, gentle stop |
+| `ease-in-out` | 2--3s          | Infinite loops (glow pulses, float) -- smooth both ways |
+| `ease`        | 2--12s         | Background animations (mesh gradient, wave) -- natural  |
+| `linear`      | 0.6--2s        | Spinners, scanning lines -- constant mechanical speed   |
 
 ### Transition Standards
 
@@ -856,4 +961,4 @@ Color must always be reinforced by a secondary indicator:
 
 ---
 
-*Generated from EnamelOS NorthStar v2 -- April 2026*
+*EnamelOS Design System -- April 2026*
