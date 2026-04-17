@@ -186,7 +186,7 @@ var motionSec=useState("enter"),mSec=motionSec[0],setMSec=motionSec[1];
 var spcHover=useState(null),sHv=spcHover[0],setSHv=spcHover[1];
 var copyMsg=useState(null),cpMsg=copyMsg[0],setCpMsg=copyMsg[1];
 var sections=[
-{id:"overview",label:"Overview",icon:"\uD83C\uDFE0"},
+{id:"overview",label:"Introduction",icon:"\uD83C\uDFE0"},
 {id:"principles",label:"Design Principles",icon:"\u2728"},
 {id:"colors",label:"Color Palette",icon:"\uD83C\uDFA8"},
 {id:"typography",label:"Typography",icon:"\uD83D\uDCDD"},
@@ -610,7 +610,7 @@ React.createElement("div",{style:{display:"flex",alignItems:"center",gap:6,margi
 React.createElement("div",{style:{width:18,height:18,borderRadius:4,background:C.tl}}),
 React.createElement("span",{style:{fontSize:13,fontWeight:600,color:C.nv}},"EnamelOS")),
 React.createElement("div",{style:{display:"flex",gap:3,background:C.s1,border:"1px solid "+C.bd,borderRadius:6,padding:"2px 4px"}},
-["Introduction","Demo","Process","AI-Native","Design System","Docs","Field Notes","Memento"].map(function(t,i){return React.createElement("span",{key:i,style:{fontSize:11,fontWeight:i===1?600:500,padding:"3px 10px",borderRadius:6,border:i===1?"1px solid "+C.tl:"1px solid transparent",background:i===1?"#fff":"transparent",color:i===1?C.tl:C.t2,cursor:"default"}},t);}))),
+["Overview","Demo","Process","AI-Native","Design System","Docs","Field Notes","Memento"].map(function(t,i){return React.createElement("span",{key:i,style:{fontSize:11,fontWeight:i===1?600:500,padding:"3px 10px",borderRadius:6,border:i===1?"1px solid "+C.tl:"1px solid transparent",background:i===1?"#fff":"transparent",color:i===1?C.tl:C.t2,cursor:"default"}},t);}))),
 React.createElement("div",{style:{padding:"8px 16px",fontSize:11,color:C.t3}},"Pill-style tabs in a grouped container. Active tab gets teal border + white fill. 8 top-level pages.")),
 DSLabel("Sidebar Navigation (Demo Mode)"),DSCard(React.createElement("div",{style:{display:"flex",gap:16}},
 React.createElement("div",{style:{width:180,borderRight:"1px solid "+C.bd,paddingRight:16}},
@@ -799,7 +799,7 @@ React.createElement("div",{style:{flex:1,overflow:"auto",padding:28,background:C
 }
 /* ═══════════ EXPORT ═══════════ */
 export default function EnamelOS(){
-var pgS=useState("introduction"),page=pgS[0],setPg=pgS[1];
+var pgS=useState("overview"),page=pgS[0],setPg=pgS[1];
 var nS=useState("today"),nId=nS[0],setN=nS[1];
 var sS=useState("agenda"),sId=sS[0],setS=sS[1];
 var dS=useState(null),detail=dS[0],setD=dS[1];
@@ -808,7 +808,7 @@ var tpS=useState(null),tp=tpS[0],setTp=tpS[1];
 var nav=useCallback(function(n,s){setN(n);setS(s);setD(null);},[]);
 var goD=useCallback(function(t,d){setD({type:t,data:d});},[]);
 var back=useCallback(function(){setD(null);},[]);
-var tourTabs=["Introduction","Demo","Process","AI-Native","Design System","Docs","Field Notes","Memento"];
+var tourTabs=["Overview","Demo","Process","AI-Native","Design System","Docs","Field Notes","Memento"];
 var tourDescs=["Product overview with problem statement, solution, the value of design and principles, and an interactive demo preview.","Fully interactive prototype with 28 screens across 7 domains. Click any element to explore.","Complete design process documentation with research, IA, design system, and AI workflow.","How EnamelOS embeds AI intelligence into scanning, case management, and practice analytics.","Interactive Storybook-style design system with live components, color palette, typography, spacing, motion, and usage rules.","Screen-by-screen documentation with descriptions, tags, and filterable controls.","Reflections on dental technology, product design, and the future of clinical workflows.","A personal postcard to the Dandy team with a personal letter of interest."];
 useEffect(function(){if(ob>0&&ob<=8){requestAnimationFrame(function(){var el=document.getElementById("eos-btn-"+(ob-1));if(el){var r=el.getBoundingClientRect();setTp({x:r.left+r.width/2,y:r.bottom+12});}});}else{setTp(null);}},[ob]);
 return React.createElement("div",{style:{width:"100%",height:"100vh",background:C.bg,fontFamily:FT,color:C.t1,display:"flex",flexDirection:"column",overflow:"hidden",position:"relative"}},
@@ -816,8 +816,8 @@ React.createElement("style",{dangerouslySetInnerHTML:{__html:CSS}}),
 ob===0&&React.createElement("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center"}},React.createElement("div",{className:"fs",style:{background:C.wh,borderRadius:16,padding:"36px 40px",maxWidth:420,textAlign:"center",boxShadow:"0 20px 60px rgba(0,0,0,.3)"}},React.createElement("div",{style:{display:"flex",justifyContent:"center",marginBottom:4}},React.createElement(Logo,{size:40})),React.createElement("div",{style:{fontSize:22,fontWeight:700,color:C.nv,marginTop:12}},"Welcome to EnamelOS"),React.createElement("p",{style:{fontSize:13,color:C.t2,lineHeight:1.7,marginTop:10}},"A speculative product experience designed for Dandy. Explore interactive screens, the design process, and a personal note to the team."),React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"center",marginTop:20}},React.createElement(Btn,{onClick:function(){setOb(-1);}},"Skip"),React.createElement(Btn,{primary:true,onClick:function(){setOb(1);}},"Take the Tour")))),
 ob>0&&ob<=8&&React.createElement("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,.75)",zIndex:9998}}),
 React.createElement("div",{style:{display:"flex",gap:8,padding:"7px 12px",borderBottom:"1px solid "+C.bd,background:C.wh,alignItems:"center",flexShrink:0,position:"relative",zIndex:ob>0&&ob<=8?10000:1}},React.createElement("div",{style:{display:"flex",alignItems:"center",gap:6,marginRight:10}},React.createElement(Logo,{size:18}),React.createElement("span",{style:{fontSize:13,fontWeight:600,color:C.nv}},"EnamelOS")),React.createElement("div",{style:{display:"flex",alignItems:"center",gap:3,background:C.s1,border:"1px solid "+C.bd,borderRadius:6,padding:"2px 4px"}},tourTabs.map(function(p2,ti){var pk=p2.toLowerCase().replace(/ /g,"");var isHL=ob>0&&ti===(ob-1);return React.createElement(Btn,{key:p2,id:"eos-btn-"+ti,sm:true,active:ob>0?false:page===pk,onClick:ob>0?undefined:function(){setPg(pk);setD(null);},style:Object.assign(p2==="Memento"&&ob<=0?{animation:"mg 2s ease-in-out infinite"}:{},isHL?{boxShadow:"0 0 0 3px "+C.tl+"60",background:"#fff",color:C.tl,fontWeight:700}:{})},p2);}))),
-ob>0&&ob<=8&&tp&&React.createElement("div",{className:"fs",style:{position:"fixed",top:tp.y,left:tp.x-140,background:C.wh,borderRadius:12,padding:"16px 20px",width:280,boxShadow:"0 12px 40px rgba(0,0,0,.3)",zIndex:10002,border:"1px solid "+C.bd}},React.createElement("div",{style:{position:"absolute",top:-6,left:"50%",marginLeft:-6,width:12,height:12,background:C.wh,transform:"rotate(45deg)",borderLeft:"1px solid "+C.bd,borderTop:"1px solid "+C.bd}}),React.createElement("div",{style:{fontSize:14,fontWeight:600,color:C.nv,marginBottom:6}},tourTabs[ob-1]),React.createElement("p",{style:{fontSize:12,color:C.t2,lineHeight:1.6,margin:"0 0 12px"}},tourDescs[ob-1]),React.createElement("div",{style:{display:"flex",justifyContent:ob>1?"space-between":"flex-end"}},ob>1&&React.createElement(Btn,{sm:true,onClick:function(){setOb(ob-1);}},"← Prev"),ob<8?React.createElement(Btn,{sm:true,primary:true,onClick:function(){setOb(ob+1);}},"Next →"):React.createElement(Btn,{sm:true,primary:true,onClick:function(){setOb(-1);setPg("introduction");}},"Let's go!"))),
-page==="introduction"&&React.createElement(OverviewPage,{setPage:setPg}),
+ob>0&&ob<=8&&tp&&React.createElement("div",{className:"fs",style:{position:"fixed",top:tp.y,left:tp.x-140,background:C.wh,borderRadius:12,padding:"16px 20px",width:280,boxShadow:"0 12px 40px rgba(0,0,0,.3)",zIndex:10002,border:"1px solid "+C.bd}},React.createElement("div",{style:{position:"absolute",top:-6,left:"50%",marginLeft:-6,width:12,height:12,background:C.wh,transform:"rotate(45deg)",borderLeft:"1px solid "+C.bd,borderTop:"1px solid "+C.bd}}),React.createElement("div",{style:{fontSize:14,fontWeight:600,color:C.nv,marginBottom:6}},tourTabs[ob-1]),React.createElement("p",{style:{fontSize:12,color:C.t2,lineHeight:1.6,margin:"0 0 12px"}},tourDescs[ob-1]),React.createElement("div",{style:{display:"flex",justifyContent:ob>1?"space-between":"flex-end"}},ob>1&&React.createElement(Btn,{sm:true,onClick:function(){setOb(ob-1);}},"← Prev"),ob<8?React.createElement(Btn,{sm:true,primary:true,onClick:function(){setOb(ob+1);}},"Next →"):React.createElement(Btn,{sm:true,primary:true,onClick:function(){setOb(-1);setPg("overview");}},"Let's go!"))),
+page==="overview"&&React.createElement(OverviewPage,{setPage:setPg}),
 page==="demo"&&React.createElement(DemoView,{nId:nId,sId:sId,detail:detail,nav:nav,goD:goD,back:back}),
 page==="docs"&&React.createElement(DocsPage,{goD:goD}),
 page==="process"&&React.createElement(ProcessPage),
